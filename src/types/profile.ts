@@ -1,8 +1,10 @@
-/* Interface para estrutura básica de perfil do usuário */
 export interface UserProfile {
-    name: string;
-    email: string;
-    fileUri?: string;
-    location?: string; // Formato: "Cidade, Estado, País"
-  }
-  
+  name: string;
+  surname?: string;
+  email: string;
+  age?: number;
+  institution?: string;
+  course?: string;
+  fileUri?: string;
+  location?: string;
+}

@@ -1,22 +1,40 @@
-import { useFonts } from 'expo-font';
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-
-export default function RootLayout(){
-    const [loaded] = useFonts({
-    'Space-Regular': require('@/assets/fonts/SpaceMono-Regular.ttf'),
-    'JetBrains-Regular': require('@/assets/fonts/JetBrainsMono-Regular.ttf'),
-    'JetBrains-Medium': require('@/assets/fonts/JetBrainsMono-Medium.ttf'),
-  });
+import Octicons from '@expo/vector-icons/Octicons';
+import { Tabs } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 
-    return (
-        <>
-        <StatusBar style='auto' />
-        <Stack initialRouteName="onboarding">
-            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-        </>
-    )
+export default function TabLayout() {
+  return (
+    <>
+      <StatusBar style='auto' />
+      <Tabs screenOptions={{
+        tabBarActiveTintColor: '#112437',
+        tabBarStyle: {
+          height: 80,
+          paddingTop: 8,
+          borderTopWidth: 2,
+          borderTopColor: '#bdbdbd'
+        }
+        }}>
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Home',
+            tabBarInactiveTintColor: '#bdbdbd',
+            tabBarIcon: ({ color }) => <Octicons size={24} name="home" color={color} />,
+            headerShown: false
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Perfil',
+            tabBarInactiveTintColor: '#bdbdbd',
+            tabBarIcon: ({ color }) => <Octicons size={24} name="person" color={color} />,
+            headerShown: false
+          }}
+        />
+      </Tabs>
+    </>
+  );
 }

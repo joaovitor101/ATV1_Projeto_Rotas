@@ -1,26 +1,22 @@
 import Button from "@/components/Button";
-// import { LocationService } from "@/services/locationService";
 import { ProfileStorage } from "../../../services/profileStorage";
 import { UserProfile } from "@/types/profile";
-import Octicons from "@expo/vector-icons/Octicons";
-import * as DocumentPicker from "expo-document-picker";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
 import {
-  Image,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 
 export default function EditProfileModal() {
   const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
-  const [fileUri, setFileUri] = useState<string | null>(null);
-  const [location, setLocation] = useState("");
-  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [age, setAge] = useState("");
+  const [institution, setInstitution] = useState("");
+  const [course, setCourse] = useState("");
 
   useFocusEffect(
     useCallback(() => {
@@ -29,9 +25,11 @@ export default function EditProfileModal() {
 
         if (savedProfile) {
           setName(savedProfile.name);
+          setSurname(savedProfile.surname || "");
           setEmail(savedProfile.email);
-          setFileUri(savedProfile.fileUri || null);
-          setLocation(savedProfile.location || "");
+          setAge(savedProfile.age?.toString() || "");
+          setInstitution(savedProfile.institution || "");
+          setCourse(savedProfile.course || "");
         }
       }
 
@@ -39,26 +37,14 @@ export default function EditProfileModal() {
     }, [])
   );
 
-
-  const handlePickDocument = async () => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: "image/*",
-    });
-
-    if (!result.canceled && result.assets && result.assets.length > 0) {
-      const uri = result.assets[0].uri;
-      setFileUri(uri);
-    } else {
-      console.warn("Nenhuma imagem selecionada");
-    }
-  };
-
   const handleSave = async () => {
     const updatedProfile: UserProfile = {
       name: name.trim(),
+      surname: surname.trim() || undefined,
       email: email.trim(),
-      fileUri: fileUri || undefined,
-      location: location.trim() || undefined,
+      age: age ? parseInt(age) : undefined,
+      institution: institution.trim() || undefined,
+      course: course.trim() || undefined,
     };
 
     await ProfileStorage.save(updatedProfile);
@@ -73,14 +59,7 @@ export default function EditProfileModal() {
     <View style={styles.container}>
       <Text style={styles.title}>Editar Perfil</Text>
 
-      {/* Informações do Perfil */}
       <View style={styles.profileInfo}>
-        {fileUri && (
-          <View style={styles.previewContainer}>
-            <Image source={{ uri: fileUri }} style={styles.preview} />
-          </View>
-        )}
-
         <View style={styles.infoItem}>
           <Text style={styles.infoLabel}>Nome:</Text>
           <TextInput
@@ -92,15 +71,65 @@ export default function EditProfileModal() {
           />
         </View>
 
+        <View style={styles.infoItem}>
+          <Text style={styles.infoLabel}>Sobrenome:</Text>
+          <TextInput
+            style={styles.textInput}
+            value={surname}
+            onChangeText={setSurname}
+            placeholder="Digite seu sobrenome"
+            placeholderTextColor="#999999"
+          />
+        </View>
+
+        <View style={styles.infoItem}>
+          <Text style={styles.infoLabel}>Email:</Text>
+          <TextInput
+            style={styles.textInput}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Digite seu email"
+            placeholderTextColor="#999999"
+            keyboardType="email-address"
+          />
+        </View>
+
+        <View style={styles.infoItem}>
+          <Text style={styles.infoLabel}>Idade:</Text>
+          <TextInput
+            style={styles.textInput}
+            value={age}
+            onChangeText={setAge}
+            placeholder="Digite sua idade"
+            placeholderTextColor="#999999"
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View style={styles.infoItem}>
+          <Text style={styles.infoLabel}>Instituição:</Text>
+          <TextInput
+            style={styles.textInput}
+            value={institution}
+            onChangeText={setInstitution}
+            placeholder="Digite sua instituição"
+            placeholderTextColor="#999999"
+          />
+        </View>
+
+        <View style={styles.infoItem}>
+          <Text style={styles.infoLabel}>Curso:</Text>
+          <TextInput
+            style={styles.textInput}
+            value={course}
+            onChangeText={setCourse}
+            placeholder="Digite seu curso"
+            placeholderTextColor="#999999"
+          />
+        </View>
       </View>
 
-      {/* Botões de Ação */}
       <View style={styles.footer}>
-        <Button
-          title="Selecionar imagem"
-          variant="info"
-          onPress={handlePickDocument}
-        />
         <Button title="SALVAR" onPress={handleSave} />
         <Button title="Cancelar" variant="secondary" onPress={handleCancel} />
       </View>
@@ -127,11 +156,6 @@ const styles = StyleSheet.create({
     gap: 12,
     paddingBottom: 40,
   },
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-  },
   profileInfo: {
     width: "100%",
     marginBottom: 40,
@@ -146,17 +170,6 @@ const styles = StyleSheet.create({
     color: "#666666",
     marginBottom: 5,
   },
-  infoValue: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#333333",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    backgroundColor: "#f8f8f8",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-  },
   textInput: {
     fontSize: 16,
     paddingVertical: 12,
@@ -166,66 +179,5 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#e0e0e0",
     color: "#333333",
-  },
-  previewContainer: {
-    alignItems: "center",
-    marginTop: 20,
-  },
-  preview: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-  },
-  locationContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-  },
-  locationInputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
-    color: "#333333",
-  },
-  locationTextInput: {
-    flex: 1,
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 15,
-    paddingRight: 8, // Espaço extra para o ícone
-    color: "#333333",
-  },
-  locationIconButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  locationIconButtonDisabled: {
-    opacity: 0.5,
-  },
-  spinningIcon: {
-    transform: [{ rotate: "45deg" }],
-  },
-  locationButton: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: "#2196F3",
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 2,
-    borderColor: "#1565C0",
-  },
-  locationButtonDisabled: {
-    backgroundColor: "#cccccc",
-    borderColor: "#999999",
-  },
-  locationButtonText: {
-    fontSize: 20,
-    color: "#FFFFFF",
   },
 });
