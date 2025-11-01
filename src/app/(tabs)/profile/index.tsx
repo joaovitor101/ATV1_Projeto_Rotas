@@ -46,8 +46,8 @@ export default function ProfileViewScreen() {
             <Text style={styles.label}>Nome:</Text>
             <Text style={styles.value}>{profile.name} {profile.surname}</Text>
 
-            <Text style={styles.label}>Email:</Text>
-            <Text style={styles.value}>{profile.email}</Text>
+            {/* <Text style={styles.label}>Email:</Text>
+            <Text style={styles.value}>{profile.email}</Text> */}
 
             <Text style={styles.label}>Idade:</Text>
             <Text style={styles.value}>{profile.age}</Text>

@@ -3,12 +3,7 @@ import { ProfileStorage } from "../../../services/profileStorage";
 import { UserProfile } from "@/types/profile";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 export default function EditProfileModal() {
   const [name, setName] = useState("");
@@ -82,7 +77,7 @@ export default function EditProfileModal() {
               placeholderTextColor="#999999"
             />
           </View>
-
+{/* 
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Email:</Text>
             <TextInput
@@ -93,14 +88,17 @@ export default function EditProfileModal() {
               placeholderTextColor="#999999"
               keyboardType="email-address"
             />
-          </View>
+          </View> */}
 
           <View style={styles.infoItem}>
             <Text style={styles.infoLabel}>Idade:</Text>
             <TextInput
               style={styles.textInput}
               value={age}
-              onChangeText={setAge}
+              onChangeText={(text) => {
+                const onlyNumbers = text.replace(/[^0-9]/g, "");
+                setAge(onlyNumbers);
+              }}
               placeholder="Digite sua idade"
               placeholderTextColor="#999999"
               keyboardType="numeric"
