@@ -7,12 +7,10 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  ScrollView,
   Alert,
 } from "react-native";
 import { COURSES } from "@/data/coursesData";
 import { Course } from "@/types/course";
-import Button from "@/components/Button";
 import { ProfileStorage } from "@/services/profileStorage";
 import { UserProfile } from "@/types/profile";
 
@@ -46,52 +44,54 @@ export default function HomeScreen() {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Cabeçalho */}
-      <View style={styles.header}>
-        <View style={styles.headerText}>
-          <Text style={styles.greeting}>
-            Olá, {profile?.name} {profile?.surname}
-          </Text>
-          <Text style={styles.subtitle}>
-            Pronto para aprender algo novo hoje?
+    <FlatList
+      data={COURSES}
+      renderItem={renderCourse}
+      keyExtractor={(item) => item.id}
+      numColumns={2}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.courseGrid}
+      ListHeaderComponent={
+        <>
+          {/* Cabeçalho */}
+          <View style={styles.header}>
+            <View style={styles.headerText}>
+              <Text style={styles.greeting}>
+                Olá, {profile?.name} {profile?.surname}
+              </Text>
+              <Text style={styles.subtitle}>
+                Pronto para aprender algo novo hoje?
+              </Text>
+            </View>
+            <Image
+              source={require("@/assets/images/mascote.png")}
+              style={styles.avatar}
+            />
+          </View>
+
+          {/* Progresso */}
+          <View style={styles.progressBox}>
+            <Text style={styles.progressTitle}>Seu Progresso</Text>
+            <View style={styles.progressBarBackground}>
+              <View style={styles.progressBarFill} />
+            </View>
+            <Text style={styles.progressText}>14 de 30 lições concluídas</Text>
+          </View>
+
+          {/* Título da seção */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Trilhas recomendadas</Text>
+          </View>
+        </>
+      }
+      ListFooterComponent={
+        <View style={styles.motivationBox}>
+          <Text style={styles.motivationText}>
+            “Cada linha de código é um passo rumo ao seu futuro.” 🚀
           </Text>
         </View>
-        <Image
-          source={require("@/assets/images/mascote.png")}
-          style={styles.avatar}
-        />
-      </View>
-
-      {/* Progresso */}
-      <View style={styles.progressBox}>
-        <Text style={styles.progressTitle}>Seu Progresso</Text>
-        <View style={styles.progressBarBackground}>
-          <View style={styles.progressBarFill} />
-        </View>
-        <Text style={styles.progressText}>14 de 30 lições concluídas</Text>
-      </View>
-
-      {/* Cursos recomendados */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Trilhas recomendadas</Text>
-        <FlatList
-          data={COURSES}
-          renderItem={renderCourse}
-          keyExtractor={(item) => item.id}
-          numColumns={2}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.courseGrid}
-        />
-      </View>
-
-      {/* Frase motivacional */}
-      <View style={styles.motivationBox}>
-        <Text style={styles.motivationText}>
-          “Cada linha de código é um passo rumo ao seu futuro.” 🚀
-        </Text>
-      </View>
-    </ScrollView>
+      }
+    />
   );
 }
 
@@ -124,16 +124,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 24,
     backgroundColor: "#ffffff",
+    width: "100%", // ← garante que o header ocupe toda a largura
   },
   headerText: {
     flex: 1,
     marginRight: 12,
   },
   greeting: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "600",
     color: "#112437",
     marginBottom: 4,
+    
   },
   subtitle: {
     fontSize: 14,

@@ -57,81 +57,83 @@ export default function EditProfileModal() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Editar Perfil</Text>
+      <View style={styles.modalContent}>
+        <Text style={styles.title}>Editar Perfil</Text>
 
-      <View style={styles.profileInfo}>
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>Nome:</Text>
-          <TextInput
-            style={styles.textInput}
-            value={name}
-            onChangeText={setName}
-            placeholder="Digite seu nome"
-            placeholderTextColor="#999999"
-          />
+        <View style={styles.profileInfo}>
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Nome:</Text>
+            <TextInput
+              style={styles.textInput}
+              value={name}
+              onChangeText={setName}
+              placeholder="Digite seu nome"
+              placeholderTextColor="#999999"
+            />
+          </View>
+
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Sobrenome:</Text>
+            <TextInput
+              style={styles.textInput}
+              value={surname}
+              onChangeText={setSurname}
+              placeholder="Digite seu sobrenome"
+              placeholderTextColor="#999999"
+            />
+          </View>
+
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Email:</Text>
+            <TextInput
+              style={styles.textInput}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Digite seu email"
+              placeholderTextColor="#999999"
+              keyboardType="email-address"
+            />
+          </View>
+
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Idade:</Text>
+            <TextInput
+              style={styles.textInput}
+              value={age}
+              onChangeText={setAge}
+              placeholder="Digite sua idade"
+              placeholderTextColor="#999999"
+              keyboardType="numeric"
+            />
+          </View>
+
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Instituição:</Text>
+            <TextInput
+              style={styles.textInput}
+              value={institution}
+              onChangeText={setInstitution}
+              placeholder="Digite sua instituição"
+              placeholderTextColor="#999999"
+            />
+          </View>
+
+          <View style={styles.infoItem}>
+            <Text style={styles.infoLabel}>Curso:</Text>
+            <TextInput
+              style={styles.textInput}
+              value={course}
+              onChangeText={setCourse}
+              placeholder="Digite seu curso"
+              placeholderTextColor="#999999"
+            />
+          </View>
         </View>
 
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>Sobrenome:</Text>
-          <TextInput
-            style={styles.textInput}
-            value={surname}
-            onChangeText={setSurname}
-            placeholder="Digite seu sobrenome"
-            placeholderTextColor="#999999"
-          />
+        <View style={styles.footer}>
+          <Button title="SALVAR" onPress={handleSave} />
+          <Button title="Cancelar" variant="secondary" onPress={handleCancel} />
         </View>
-
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>Email:</Text>
-          <TextInput
-            style={styles.textInput}
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Digite seu email"
-            placeholderTextColor="#999999"
-            keyboardType="email-address"
-          />
-        </View>
-
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>Idade:</Text>
-          <TextInput
-            style={styles.textInput}
-            value={age}
-            onChangeText={setAge}
-            placeholder="Digite sua idade"
-            placeholderTextColor="#999999"
-            keyboardType="numeric"
-          />
-        </View>
-
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>Instituição:</Text>
-          <TextInput
-            style={styles.textInput}
-            value={institution}
-            onChangeText={setInstitution}
-            placeholder="Digite sua instituição"
-            placeholderTextColor="#999999"
-          />
-        </View>
-
-        <View style={styles.infoItem}>
-          <Text style={styles.infoLabel}>Curso:</Text>
-          <TextInput
-            style={styles.textInput}
-            value={course}
-            onChangeText={setCourse}
-            placeholder="Digite seu curso"
-            placeholderTextColor="#999999"
-          />
-        </View>
-      </View>
-
-      <View style={styles.footer}>
-        <Button title="SALVAR" onPress={handleSave} />
-        <Button title="Cancelar" variant="secondary" onPress={handleCancel} />
       </View>
     </View>
   );
@@ -140,29 +142,36 @@ export default function EditProfileModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.3)", // fundo escuro translúcido
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#ffffff",
     padding: 20,
-    gap: 16,
+  },
+  modalContent: {
+    width: "100%",
+    maxWidth: 500,
+    backgroundColor: "#ffffff",
+    borderRadius: 16,
+    padding: 24,
+    elevation: 10,
   },
   title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 24,
+    textAlign: "center",
   },
   footer: {
     width: "100%",
     gap: 12,
-    paddingBottom: 40,
+    paddingTop: 12,
   },
   profileInfo: {
     width: "100%",
-    marginBottom: 40,
+    marginBottom: 24,
   },
   infoItem: {
     marginBottom: 20,
-    paddingHorizontal: 10,
   },
   infoLabel: {
     fontSize: 14,

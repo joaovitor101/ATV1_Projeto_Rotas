@@ -12,7 +12,7 @@ export default function ProfileLayout() {
       <Stack.Screen 
         name="edit-profile" 
         options={{ 
-          presentation: 'modal',
+          presentation: 'transparentModal',
           headerShown: false,
           animation: 'fade_from_bottom'
         }} 
